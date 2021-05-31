@@ -8,6 +8,9 @@ export class EmployeeRol extends BaseIdEntity {
     @Column()
     name:string;
 
+    @Column({nullable:true})
+    icon:string;
+
     @OneToMany(() => Employee, employee => employee.employeeType)
     employees: Employee[];
 }

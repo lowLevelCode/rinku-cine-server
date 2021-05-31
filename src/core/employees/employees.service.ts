@@ -14,12 +14,15 @@ export class EmployeesService {
     private readonly _employeeRolRepository:EmployeeRolRepository,
     private readonly _employeeTypeRepository:EmployeeTypeRepository,){}
 
-  async create(createEmployeeDto: CreateEmployeeDto) {
+  async create(createEmployeeDto: CreateEmployeeDto) {    
     // Hacemos busqueda de el rol y el typo de emplea para asignarlo
     const idEmployeeRol = createEmployeeDto.idEmployeeRol;
     const idEmployeeType = createEmployeeDto.idEmployeeType;
-    const employeeRol:EmployeeRol = await this._employeeRolRepository.findOne(idEmployeeRol);
-    const employeeType:EmployeeType = await this._employeeTypeRepository.findOne(idEmployeeType);
+
+    const employeeRol:EmployeeRol = idEmployeeRol ? 
+      await this._employeeRolRepository.findOne(idEmployeeRol) : null;
+    const employeeType:EmployeeType = idEmployeeType? 
+      await this._employeeTypeRepository.findOne(idEmployeeType) : null;
     
     let employee:Employee = new Employee();
 
@@ -36,7 +39,7 @@ export class EmployeesService {
   }
 
   findAll() {
-    return this._employeesRepository.find();
+    return this._employeesRepository.find({relations:["employeeType","employeeRol"]});
   }
 
   findOne(id: number) {
