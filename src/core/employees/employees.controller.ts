@@ -7,7 +7,8 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('employees')
 @Controller('employees')
 export class EmployeesController {
-  constructor(private readonly employeesService: EmployeesService) {}
+  constructor(
+    private readonly employeesService: EmployeesService) {}
 
   @Post()
   create(@Body() createEmployeeDto: CreateEmployeeDto) {

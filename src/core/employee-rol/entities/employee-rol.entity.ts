@@ -1,11 +1,15 @@
 import { BaseIdEntity } from "src/base/base-id.entity";
-import { Column, Entity, EntityRepository, Repository } from "typeorm";
+import { Employee } from "src/core/employees/entities/employee.entity";
+import { Column, Entity, EntityRepository, OneToMany, Repository } from "typeorm";
 
 @Entity()
 export class EmployeeRol extends BaseIdEntity {
 
     @Column()
     name:string;
+
+    @OneToMany(() => Employee, employee => employee.employeeType)
+    employees: Employee[];
 }
 
 

@@ -8,4 +8,7 @@ export class CreateEmployeeDto {
     @IsEmail() email:string;
     @IsNotEmpty() curp:string;
     @IsNotEmpty() rfc:string;
+
+    @IsNotEmpty() idEmployeeRol:number;
+    @IsNotEmpty() idEmployeeType:number;
 }

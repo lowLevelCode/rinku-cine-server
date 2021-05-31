@@ -9,6 +9,7 @@ import { EmployeeRolRepository } from './entities/employee-rol.entity';
     TypeOrmModule.forFeature([EmployeeRolRepository])
   ],
   controllers: [EmployeeRolController],
-  providers: [EmployeeRolService]
+  providers: [EmployeeRolService],
+  exports:[EmployeeRolService]
 })
 export class EmployeeRolModule {}

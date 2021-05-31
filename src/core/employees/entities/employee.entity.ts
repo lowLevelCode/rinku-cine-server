@@ -1,5 +1,7 @@
 import { BaseIdEntity } from "src/base/base-id.entity";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { EmployeeRol } from "src/core/employee-rol/entities/employee-rol.entity";
+import { EmployeeType } from "src/core/employee-type/entities/employee-type.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Employee extends BaseIdEntity{    
@@ -24,4 +26,10 @@ export class Employee extends BaseIdEntity{
 
     @Column()
     rfc:string;
+
+    @ManyToOne(() => EmployeeType, employeeType => employeeType.employees)
+    employeeType: EmployeeType;
+
+    @ManyToOne(() => EmployeeRol, employeeRol => employeeRol.employees)
+    employeeRol: EmployeeRol;
 }
