@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEmployeeTypeDto } from './dto/create-employee-type.dto';
 import { UpdateEmployeeTypeDto } from './dto/update-employee-type.dto';
+import { EmployeeTypeRepository } from './entities/employee-type.entity';
 
 @Injectable()
 export class EmployeeTypeService {
+  
+  constructor(private readonly _employeeTypeRepository:EmployeeTypeRepository){}
+
   create(createEmployeeTypeDto: CreateEmployeeTypeDto) {
-    return 'This action adds a new employeeType';
+    return this._employeeTypeRepository.save(createEmployeeTypeDto);
   }
 
   findAll() {
-    return `This action returns all employeeType`;
+    return this._employeeTypeRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} employeeType`;
+    return this._employeeTypeRepository.findOne(id);
   }
 
-  update(id: number, updateEmployeeTypeDto: UpdateEmployeeTypeDto) {
-    return `This action updates a #${id} employeeType`;
+  async update(id: number, updateEmployeeTypeDto: UpdateEmployeeTypeDto) {
+    const employeeTypeExist = await this.findOne(id);   
+    return this._employeeTypeRepository.save({
+      ...employeeTypeExist,
+      ...updateEmployeeTypeDto
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} employeeType`;
+    return this._employeeTypeRepository.delete(id);
   }
 }

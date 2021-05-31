@@ -7,10 +7,12 @@ import { Employee } from './core/employees/entities/employee.entity';
 import { EmployeeRolModule } from './core/employee-rol/employee-rol.module';
 import { EmployeeTypeModule } from './core/employee-type/employee-type.module';
 import { EmployeeRol } from './core/employee-rol/entities/employee-rol.entity';
+import { EmployeeType } from './core/employee-type/entities/employee-type.entity';
 
 const entities = [
   Employee,
-  EmployeeRol
+  EmployeeRol,
+  EmployeeType,
 ];
 
 @Module({
