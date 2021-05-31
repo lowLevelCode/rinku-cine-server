@@ -4,8 +4,14 @@ import { EmployeesModule } from './core/employees/employees.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Employee } from './core/employees/entities/employee.entity';
+import { EmployeeRolModule } from './core/employee-rol/employee-rol.module';
+import { EmployeeTypeModule } from './core/employee-type/employee-type.module';
+import { EmployeeRol } from './core/employee-rol/entities/employee-rol.entity';
 
-const entities = [Employee];
+const entities = [
+  Employee,
+  EmployeeRol
+];
 
 @Module({
   imports: [
@@ -24,7 +30,7 @@ const entities = [Employee];
     }),
 
     EchoModule, 
-    EmployeesModule
+    EmployeesModule, EmployeeRolModule, EmployeeTypeModule
   ],
 })
 export class AppModule {}
