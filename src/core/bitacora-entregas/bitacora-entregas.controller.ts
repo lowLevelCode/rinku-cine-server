@@ -20,6 +20,15 @@ export class BitacoraEntregasController {
     return this.bitacoraEntregasService.findAll({page,limit});
   }
 
+  @Get("employee/:id")
+  findAllByEmployeeId(
+    @Param('id') id: string,
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10
+  ) {
+    return this.bitacoraEntregasService.findAllByEmployeeId(+id,{page,limit});
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.bitacoraEntregasService.findOne(+id);
