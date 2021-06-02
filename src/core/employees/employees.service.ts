@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { IPaginationMeta, IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 import { EmployeeRol, EmployeeRolRepository } from '../employee-rol/entities/employee-rol.entity';
 import { EmployeeType, EmployeeTypeRepository } from '../employee-type/entities/employee-type.entity';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
@@ -36,6 +37,10 @@ export class EmployeesService {
     employee.employeeType = employeeType;
 
     return this._employeesRepository.save(employee);
+  }
+
+  findByPagination(paginationOptions:IPaginationOptions):Promise<Pagination<Employee,IPaginationMeta>> {
+    return this._employeesRepository.findAllPagination(paginationOptions);
   }
 
   findAll() {
