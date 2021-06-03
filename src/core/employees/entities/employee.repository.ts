@@ -9,7 +9,8 @@ export class EmployeeRepository extends Repository<Employee> {
         const queryBuilder = this.createQueryBuilder('e')
         .leftJoinAndSelect("e.employeeType","employeeType")
         .leftJoinAndSelect("e.employeeRol","employeeRol")
-        .where("e.isActive = :isActive", {isActive:true});
+        .where("e.isActive = :isActive", {isActive:true})
+        .orderBy("e.updatedAt","DESC");
 
         return paginate<Employee>(queryBuilder, options);
     }
