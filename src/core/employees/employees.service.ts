@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { IPaginationMeta, IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 import { EmployeeRol, EmployeeRolRepository } from '../employee-rol/entities/employee-rol.entity';
 import { EmployeeType, EmployeeTypeRepository } from '../employee-type/entities/employee-type.entity';
@@ -11,32 +11,18 @@ import { EmployeeRepository } from "./entities/employee.repository";
 export class EmployeesService {
 
   constructor(
-    private readonly _employeesRepository:EmployeeRepository,
-    private readonly _employeeRolRepository:EmployeeRolRepository,
-    private readonly _employeeTypeRepository:EmployeeTypeRepository,){}
+    private readonly _employeesRepository:EmployeeRepository){}
 
-  async create(createEmployeeDto: CreateEmployeeDto) {    
-    // Hacemos busqueda de el rol y el typo de emplea para asignarlo
-    const idEmployeeRol = createEmployeeDto.idEmployeeRol;
-    const idEmployeeType = createEmployeeDto.idEmployeeType;
+  async create(createEmployeeDto: CreateEmployeeDto) {
+    const {telefono,email,curp,rfc} = createEmployeeDto;
+    const employeeExist = await this._employeesRepository.findOne({
+      where:[ {telefono}, {email}, {curp}, {rfc} ]
+    });
 
-    const employeeRol:EmployeeRol = idEmployeeRol ? 
-      await this._employeeRolRepository.findOne(idEmployeeRol) : null;
-    const employeeType:EmployeeType = idEmployeeType? 
-      await this._employeeTypeRepository.findOne(idEmployeeType) : null;
-    
-    let employee:Employee = new Employee();
+    if(employeeExist)
+      throw new BadRequestException("Ya existe un empleado con unos de estos datos registrados: [telefono,email,curp,rfc]");
 
-    // eliminamos estas propiedades para que estos datos no se guarden
-    delete createEmployeeDto.idEmployeeRol; 
-    delete createEmployeeDto.idEmployeeType;
-
-    Object.assign(employee,createEmployeeDto); // hacemos un mapeo de las propiedades
-    
-    employee.employeeRol = employeeRol; 
-    employee.employeeType = employeeType;
-
-    return this._employeesRepository.save(employee);
+    return this._employeesRepository.save(createEmployeeDto);
   }
 
   findByPagination(paginationOptions:IPaginationOptions):Promise<Pagination<Employee,IPaginationMeta>> {

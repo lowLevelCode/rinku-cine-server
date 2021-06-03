@@ -3,16 +3,10 @@ import { EmployeesService } from './employees.service';
 import { EmployeesController } from './employees.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmployeeRepository } from './entities/employee.repository';
-import { EmployeeRolRepository } from '../employee-rol/entities/employee-rol.entity';
-import { EmployeeTypeRepository } from '../employee-type/entities/employee-type.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      EmployeeRepository,
-      EmployeeRolRepository, 
-      EmployeeTypeRepository
-    ]),    
+    TypeOrmModule.forFeature([EmployeeRepository]),    
   ],
   controllers: [EmployeesController],
   providers: [EmployeesService]
