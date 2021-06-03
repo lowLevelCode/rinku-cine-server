@@ -1,6 +1,6 @@
 import { IPaginationMeta, IPaginationOptions, paginate, Pagination } from "nestjs-typeorm-paginate";
-import { BaseIdEntity } from "src/base/base-id.entity";
-import { Employee } from "src/core/employees/entities/employee.entity";
+import { BaseIdEntity } from "../../../base/base-id.entity";
+import { Employee } from "../../../core/employees/entities/employee.entity";
 import { Column, Entity, EntityRepository, JoinTable, ManyToMany, Repository } from "typeorm";
 
 @Entity()
@@ -13,6 +13,12 @@ export class BitacoraEntregas extends BaseIdEntity {
 
     @Column()
     cantidadEntregas:number;
+
+    @Column()
+    rolId:number;
+
+    @Column()
+    tipoId:number;
 
     @Column()
     cubrioTurno:boolean;

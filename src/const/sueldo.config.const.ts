@@ -1,0 +1,9 @@
+export const SUELDO_$30 = 30;
+export const JORNADA_LABORAL_HORAS = 8;
+export const DINERO_ENTREGA_$5 = 5;
+export const BONO_CHOFER_$10 = 10;
+export const BONO_CARGADOR_$5 = 5;
+export const VALES_DESPENSA_4_PORCIENTO = 4;
+export const IMPUESTO_BASE_9_PORCIENTO = 9;
+export const IMPUESTO_ADICIONAL_3_PORCIENTO = 3;
+export const SUELDO_MENSUAL_LIMITE_16000 = 16000;

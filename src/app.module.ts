@@ -10,6 +10,7 @@ import { EmployeeRol } from './core/employee-rol/entities/employee-rol.entity';
 import { EmployeeType } from './core/employee-type/entities/employee-type.entity';
 import { BitacoraEntregasModule } from './core/bitacora-entregas/bitacora-entregas.module';
 import { BitacoraEntregas } from './core/bitacora-entregas/entities/bitacora-entregas.entity';
+import { NominaModule } from './core/nomina/nomina.module';
 
 const entities = [
   Employee,
@@ -35,7 +36,7 @@ const entities = [
     }),
 
     EchoModule, 
-    EmployeesModule, EmployeeRolModule, EmployeeTypeModule, BitacoraEntregasModule
+    EmployeesModule, EmployeeRolModule, EmployeeTypeModule, BitacoraEntregasModule, NominaModule
   ],
 })
 export class AppModule {}

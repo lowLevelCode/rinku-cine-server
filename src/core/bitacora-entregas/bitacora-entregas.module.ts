@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BitacoraEntregasRepository } from './entities/bitacora-entregas.entity';
 import { EmployeeRepository } from '../employees/entities/employee.repository';
 
-@Module({
+@Module({   
   imports:[
     TypeOrmModule.forFeature([
       BitacoraEntregasRepository,
