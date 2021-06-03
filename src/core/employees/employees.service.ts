@@ -1,7 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { IPaginationMeta, IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
-import { EmployeeRol, EmployeeRolRepository } from '../employee-rol/entities/employee-rol.entity';
-import { EmployeeType, EmployeeTypeRepository } from '../employee-type/entities/employee-type.entity';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Employee } from './entities/employee.entity';
@@ -43,12 +41,12 @@ export class EmployeesService {
     return this._employeesRepository.findAllPagination(paginationOptions);
   }
 
-  findAll() {
-    return this._employeesRepository.find({relations:["employeeType","employeeRol"]});
-  }
+  async findOne(id: number) {
+    const employeeExist = await this._employeesRepository.findOne(id);
+    if(!employeeExist)
+      throw new NotFoundException(`No existe un empleado con el id: ${id}`);
 
-  findOne(id: number) {
-    return this._employeesRepository.findOne(id);
+    return employeeExist;
   }
 
   async update(id: number, updateEmployeeDto: UpdateEmployeeDto) { 
@@ -59,7 +57,9 @@ export class EmployeesService {
     });
   }
 
-  remove(id: number) {
-    return this._employeesRepository.delete(id);
+  async remove(id: number) {
+    const employeeExist = await this.findOne(id);   
+    employeeExist.isActive = false;
+    return this._employeesRepository.save(employeeExist);
   }
 }

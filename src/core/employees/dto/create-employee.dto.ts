@@ -10,4 +10,5 @@ export class CreateEmployeeDto {
 
     @IsNotEmpty() employeeRolId:number;
     @IsNotEmpty() employeeTypeId:number;
+    @IsNotEmpty() isActive:boolean;
 }

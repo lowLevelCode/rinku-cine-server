@@ -1,11 +1,11 @@
-import { BaseIdEntity } from "src/base/base-id.entity";
+import { BaseIdCreatedActiveEntity } from "src/base/base-id-created-active.entity";
 import { BitacoraEntregas } from "src/core/bitacora-entregas/entities/bitacora-entregas.entity";
 import { EmployeeRol } from "src/core/employee-rol/entities/employee-rol.entity";
 import { EmployeeType } from "src/core/employee-type/entities/employee-type.entity";
 import { Column, Entity, ManyToMany, ManyToOne, JoinColumn } from "typeorm";
 
 @Entity()
-export class Employee extends BaseIdEntity{    
+export class Employee extends BaseIdCreatedActiveEntity {    
 
     @Column()
     nombre: string;
