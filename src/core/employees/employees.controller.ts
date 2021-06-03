@@ -15,6 +15,11 @@ export class EmployeesController {
     return this.employeesService.create(createEmployeeDto);
   }
 
+  @Post('createMany')
+  createMany(@Body() createEmployeeDtos: CreateEmployeeDto[]) {
+    return this.employeesService.createMany(createEmployeeDtos);
+  }  
+
   @Get()
   findAll(
     @Query('page') page: number = 1,

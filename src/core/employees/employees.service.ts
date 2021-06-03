@@ -25,6 +25,20 @@ export class EmployeesService {
     return this._employeesRepository.save(createEmployeeDto);
   }
 
+  async createMany(createEmployeeDtos:CreateEmployeeDto[]){
+    await Promise.all(createEmployeeDtos.map(async (createEmployee)=>{ // busca de forma paralela
+      const {telefono,email,curp,rfc} = createEmployee;
+      const employeeExist = await this._employeesRepository.findOne({
+        where:[ {telefono}, {email}, {curp}, {rfc} ]
+      });
+  
+      if(employeeExist)
+        throw new BadRequestException("Ya existe un empleado con unos de estos datos registrados: [telefono,email,curp,rfc]");
+    }));
+
+    return this._employeesRepository.save(createEmployeeDtos);
+  }
+
   findByPagination(paginationOptions:IPaginationOptions):Promise<Pagination<Employee,IPaginationMeta>> {
     return this._employeesRepository.findAllPagination(paginationOptions);
   }
