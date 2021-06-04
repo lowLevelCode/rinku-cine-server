@@ -12,8 +12,7 @@ import { EmployeeRolEnum } from 'src/enums/employee-rol.enum';
 export class BitacoraEntregasService {
 
   constructor(
-    private readonly _bitacoraEntregasRepository: BitacoraEntregasRepository,
-    private readonly _employeeRepository: EmployeeRepository){}
+    private readonly _bitacoraEntregasRepository: BitacoraEntregasRepository){}
 
   async create(createBitacoraEntregasDto: CreateBitacoraEntregasDto) {
 
@@ -22,12 +21,7 @@ export class BitacoraEntregasService {
 
     const idRol = createBitacoraEntregasDto.rolId;
     const cubrioTurno = createBitacoraEntregasDto.cubrioTurnoTo;
-
-    const employee:Employee = await this._employeeRepository.findOne(idEmployee);
-
-    if(!employee) {
-      throw new NotFoundException(`No existe ningun empleado con el id: ${idEmployee}`);
-    }  
+    
 
     if(idRol != EmployeeRolEnum.AUXILIAR && cubrioTurno){
       throw new BadRequestException("Solo los auxiliares pueden cubir turno");
@@ -41,15 +35,10 @@ export class BitacoraEntregasService {
 
     if(bitacoraDateExist)
       throw new InternalServerErrorException(`Ya existe un registro con esa fecha y id`);
+    
+    createBitacoraEntregasDto.folio = uuid();  // generamos un numero de folio unico
 
-    let bitacora = new BitacoraEntregas();
-    delete createBitacoraEntregasDto.idEmployee;
-    Object.assign(bitacora,createBitacoraEntregasDto);
-
-    bitacora.empleados = [employee];
-    bitacora.folio = uuid();  // generamos un numero de folio unico
-
-    return this._bitacoraEntregasRepository.save(bitacora);
+    return this._bitacoraEntregasRepository.save(createBitacoraEntregasDto);
   }
 
   findAll(paginationOptions:IPaginationOptions):Promise<Pagination<BitacoraEntregas,IPaginationMeta>> {

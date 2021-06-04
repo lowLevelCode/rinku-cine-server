@@ -22,12 +22,15 @@ export class BitacoraEntregas extends BaseIdEntity {
     @Column()
     tipoId:number;
 
+    @Column()
+    idEmployee:number;
+
     @Column({nullable:true})
     cubrioTurnoTo:string;
-
-    @ManyToMany(() => Employee, employee => employee.bitacoraEntregas)    
-    @JoinTable()
-    empleados:Employee[];
+    
+    @ManyToOne(() => Employee, employee => employee.bitacoraEntregas)
+    @JoinColumn({name:'idEmployee', referencedColumnName: 'id'})
+    empleados:Employee;
 
     @ManyToOne(() => EmployeeType, employeeType => employeeType.bitacoras)
     @JoinColumn({name:'tipoId', referencedColumnName: 'id'})

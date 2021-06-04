@@ -5,4 +5,5 @@ export class CreateBitacoraEntregasDto {
     rolId:number;
     tipoId:number;
     cubrioTurnoTo:string;
+    folio?:string;
 }

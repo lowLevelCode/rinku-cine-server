@@ -2,7 +2,7 @@ import { BaseIdCreatedActiveEntity } from "src/base/base-id-created-active.entit
 import { BitacoraEntregas } from "src/core/bitacora-entregas/entities/bitacora-entregas.entity";
 import { EmployeeRol } from "src/core/employee-rol/entities/employee-rol.entity";
 import { EmployeeType } from "src/core/employee-type/entities/employee-type.entity";
-import { Column, Entity, ManyToMany, ManyToOne, JoinColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, JoinColumn, OneToMany } from "typeorm";
 
 @Entity()
 export class Employee extends BaseIdCreatedActiveEntity {    
@@ -38,7 +38,7 @@ export class Employee extends BaseIdCreatedActiveEntity {
     @ManyToOne(() => EmployeeRol, employeeRol => employeeRol.employees)
     @JoinColumn({name:'employeeRolId', referencedColumnName: 'id'})
     employeeRol: EmployeeRol;
-
-    @ManyToMany(() => BitacoraEntregas, bicatora => bicatora.empleados)
+    
+    @OneToMany(() => BitacoraEntregas, bicatora => bicatora.empleados)
     bitacoraEntregas:BitacoraEntregas[];
 }
