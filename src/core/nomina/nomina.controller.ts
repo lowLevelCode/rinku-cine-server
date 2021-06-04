@@ -1,13 +1,16 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { QueryNomina } from './dto/query-nomina';
+import { Body, Controller, Get, Param, Query } from '@nestjs/common';
 import { NominaService } from './nomina.service';
 
 @Controller('nomina')
 export class NominaController {
   constructor(private readonly nominaService: NominaService) {}
 
-  @Post('calcular')
-  calcularNominaPorEmpleado(@Body() query: QueryNomina) {
-    return this.nominaService.calcularNominaPorEmpleado(query);
+  @Get('calcular/employee/:id')
+  calcularNominaPorEmpleado(
+    @Param('id') id: string,
+    @Query('anio') anio: string,
+    @Query('mes') mes: string,
+    ) {
+    return this.nominaService.calcularNominaPorEmpleado(+id,anio,mes);
   }
 }

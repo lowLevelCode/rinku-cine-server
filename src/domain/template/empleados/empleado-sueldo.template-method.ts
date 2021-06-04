@@ -61,7 +61,7 @@ export abstract class EmpleadoSueldoTemplate {
         return this.cubrioTurnoTo;
     }
 
-    protected abstract calcularBonos(): number;        
+    public abstract calcularBonos(): number;        
 }
 
 export enum CubrioTurnoToEnum {
