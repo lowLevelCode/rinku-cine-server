@@ -1,7 +1,9 @@
 import { IPaginationMeta, IPaginationOptions, paginate, Pagination } from "nestjs-typeorm-paginate";
 import { BaseIdEntity } from "../../../base/base-id.entity";
 import { Employee } from "../../../core/employees/entities/employee.entity";
-import { Column, Entity, EntityRepository, JoinTable, ManyToMany, Repository } from "typeorm";
+import { Column, Entity, EntityRepository, JoinColumn, JoinTable, ManyToMany, ManyToOne, Repository } from "typeorm";
+import { EmployeeType } from "src/core/employee-type/entities/employee-type.entity";
+import { EmployeeRol } from "src/core/employee-rol/entities/employee-rol.entity";
 
 @Entity()
 export class BitacoraEntregas extends BaseIdEntity {
@@ -20,12 +22,20 @@ export class BitacoraEntregas extends BaseIdEntity {
     @Column()
     tipoId:number;
 
-    @Column()
-    cubrioTurno:boolean;
+    @Column({nullable:true})
+    cubrioTurnoTo:string;
 
     @ManyToMany(() => Employee, employee => employee.bitacoraEntregas)    
     @JoinTable()
     empleados:Employee[];
+
+    @ManyToOne(() => EmployeeType, employeeType => employeeType.bitacoras)
+    @JoinColumn({name:'tipoId', referencedColumnName: 'id'})
+    employeeType: EmployeeType;
+
+    @ManyToOne(() => EmployeeRol, employeeType => employeeType.bitacoras)
+    @JoinColumn({name:'rolId', referencedColumnName: 'id'})
+    employeeRol: EmployeeRol;
 }
 
 @EntityRepository(BitacoraEntregas)
@@ -39,6 +49,8 @@ export class BitacoraEntregasRepository extends Repository<BitacoraEntregas> {
     async findAllByEmployeeId(idEmployee:number,options: IPaginationOptions): Promise<Pagination<BitacoraEntregas,IPaginationMeta>> {        
         const queryBuilder = this.createQueryBuilder('b')
         .leftJoin("b.empleados","empleados")
+        .leftJoinAndSelect("b.employeeType","employeeType")
+        .leftJoinAndSelect("b.employeeRol","employeeRol")
         .where("empleados.id = :id", { id: idEmployee })
         .orderBy("b.fechaCaptura","DESC");
         return paginate<BitacoraEntregas>(queryBuilder, options);

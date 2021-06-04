@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, BadRequestException } from '@nestjs/common';
 import { BitacoraEntregasService } from './bitacora-entregas.service';
 import { CreateBitacoraEntregasDto } from './dto/create-bitacora-entregas.dto';
 import { UpdateBitacoraEntregasDto } from './dto/update-bitacora-entregas.dto';
@@ -27,6 +27,19 @@ export class BitacoraEntregasController {
     @Query('limit') limit: number = 10
   ) {
     return this.bitacoraEntregasService.findAllByEmployeeId(+id,{page,limit});
+  }
+
+
+  @Get("employee-and-date/:id")
+  findAllByEmployeeIdAndDateRange(
+    @Param('id') id: string,
+    @Query('anio') anio: number,
+    @Query('mes') mes: number) 
+  {
+    if(!anio || !mes) {
+      throw new BadRequestException("Necesitas incluir el año y el mes");
+    }
+    return this.bitacoraEntregasService.findAllByEmployeeIdAndDateRange(+id, anio, mes);
   }
 
   @Get(':id')
